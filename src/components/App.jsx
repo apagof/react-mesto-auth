@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Header } from "./Header";
-import { Main } from "./Main.js";
-import { Footer } from "./Footer.js";
-import ImagePopup from "./ImagePopup.js";
+import { Main } from "./Main.jsx";
+import { Footer } from "./Footer.jsx";
+import ImagePopup from "./ImagePopup.jsx";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [isEditPopupProfileOpen, setEditPopupProfileOpen] = useState(false);
