@@ -9,7 +9,7 @@ export default function Auth({title, buttonTitle, onHandleSubmit}) {
         password: '', 
     })
     const handleChange = (e) => {
-        const {name, value} =e.target;
+        const {name, value} = e.target;
 
         setFormValue({...formValue, [name]: value});
     }
@@ -21,7 +21,9 @@ export default function Auth({title, buttonTitle, onHandleSubmit}) {
 
       return (
         <div className="authorization">
+            
             <div className= "authorization__container">
+            <h2 className="authorization__title">Вход</h2>
                 <form className="authorization-form authorization-form_login"
                 name="register"
                 onSubmit={handleSubmit}
