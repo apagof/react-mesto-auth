@@ -23,4 +23,4 @@
 <li>Сделать продакшн билд - npm run build</li>
 </ul>
 
-<h3> Ссылка на проект: https://apagof.github.io/mesto-react/</h3>
+<h3> Ссылка на проект: https://apagof.github.io/react-mesto-auth/</h3>
