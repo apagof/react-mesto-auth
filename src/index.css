@@ -79,3 +79,9 @@
 @import url(./blocks/popup/__icon/popup__icon.css);
 @import url(./blocks/popup/__title-tooltip/popup__title-tooltip.css);
 @import url(./blocks/authorization/__title/authorization__title.css);
+
+@import url(./blocks/authorization-form/__input/_email/authorization-form__input_email.css);
+@import url(./blocks/header/__buttons-wrapper/header__buttons-wrapper.css);
+@import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__link/header__link.css);
+@import url(./blocks/header/__button/header__button.css);

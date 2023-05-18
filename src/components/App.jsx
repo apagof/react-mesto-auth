@@ -273,16 +273,15 @@ function App() {
           />
           <Route path="/" element={
             <ProtectedRoute
-               path="/"
-              isloggedIn={isLoggedIn}
-              element={Main}
-              onEditAvatar={handleEditAvatarClick}
-              onEditProfile={handleEditProfileClick}
-              onAddCard={handleAddPlaceClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-              cards={cards}
+            isLoggedIn={isLoggedIn}            
+            element={Main}
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            cards={cards}
             />}
           />
           <Route path="*" element={<Navigate to="/sign-up"/>}/>
