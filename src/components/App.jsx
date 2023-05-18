@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { Header } from "./Header";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import Header from "./Header";
 import { Main } from "./Main.jsx";
 import { Footer } from "./Footer.jsx";
 import ImagePopup from "./ImagePopup.jsx";
@@ -14,9 +14,6 @@ import Auth from "./Auth";
 import InfoTooltip from "./InfoTooltip";
 import * as apiAuth from "../utils/apiAuth.js";
 
-
-
-
 function App() {
   const [isEditPopupProfileOpen, setEditPopupProfileOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -29,66 +26,67 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
-  const [tooltipTitle, setTooltipTitle] = useState('');
-  const [tooltipIcon, setTooltipIcon] = useState('');
-  const [email, setEmail] = useState('');
+  const [tooltipTitle, setTooltipTitle] = useState("");
+  const [tooltipIcon, setTooltipIcon] = useState("");
+  const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
 
   const onHandleRegisterSubmit = (formValue) => {
     const { email, password } = formValue;
-    apiAuth.register(email, password)
+    apiAuth
+      .register(email, password)
       .then((res) => {
-        navigate('/sign-in', {replace: true});
+        navigate("/sign-in", { replace: true });
         onSucessedRegister();
-        }
-      )
-      .catch(err => {
-        onError();
-        console.log(err)
       })
-  }
+      .catch((err) => {
+        onError();
+        console.log(err);
+      });
+  };
 
   const onHandleLoginSubmit = (formValue, setFormValue) => {
     if (!formValue.email || !formValue.password) {
       return;
     }
-    apiAuth.authorize(formValue.email, formValue.password)
+    apiAuth
+      .authorize(formValue.email, formValue.password)
       .then((data) => {
         if (data.token) {
-          setFormValue({email: '', password: ''});
+          setFormValue({ email: "", password: "" });
           onHandleLogin(formValue.email);
-          navigate('/', {replace: true});
+          navigate("/", { replace: true });
         }
       })
-      .catch(err => {
-        onError()
-        console.log(err)
+      .catch((err) => {
+        onError();
+        console.log(err);
       });
-  }
+  };
 
   const onHandleLogin = (email) => {
     setIsLoggedIn(true);
-    setEmail(email)
-  }
+    setEmail(email);
+  };
 
   function onSignOut() {
-    localStorage.removeItem('jwt');
+    localStorage.removeItem("jwt");
     setIsLoggedIn(false);
-    setEmail('');
-    navigate("/sign-in", {replace: true})
+    setEmail("");
+    navigate("/sign-in", { replace: true });
   }
 
   function onSucessedRegister() {
-    setTooltipIcon("success")
-    setTooltipTitle('Вы успешно зарегистрировались!')
-    setIsInfoTooltipPopupOpen(true)
+    setTooltipIcon("success");
+    setTooltipTitle("Вы успешно зарегистрировались!");
+    setIsInfoTooltipPopupOpen(true);
   }
 
   function onError() {
-    setTooltipIcon("error")
-    setTooltipTitle('Что-то пошло не так! Попробуйте ещё раз.')
-    setIsInfoTooltipPopupOpen(true)
+    setTooltipIcon("error");
+    setTooltipTitle("Что-то пошло не так! Попробуйте ещё раз.");
+    setIsInfoTooltipPopupOpen(true);
   }
 
   const getUserInfoApi = () => {
@@ -115,35 +113,37 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-  }, [])
+  }, []);
 
   const tokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      apiAuth.getContent(jwt).then((res) => {
-        if (res) {
-          setIsLoggedIn(true);
-          const userData = {
-            username: res.data._id,
-            email: res.data.email
+      apiAuth
+        .getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setIsLoggedIn(true);
+            const userData = {
+              username: res.data._id,
+              email: res.data.email,
+            };
+            setUserData(userData);
+            setEmail(userData.email);
+            navigate("/", { replace: true });
           }
-          setUserData(userData)
-          setEmail(userData.email)
-          navigate("/", { replace: true })
-        }
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
     }
-  }
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
-    getUserInfoApi();
-    getCardsApi();
+      getUserInfoApi();
+      getCardsApi();
     }
-  }, []);
+  }, [isLoggedIn]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -204,7 +204,7 @@ function App() {
     setEditPopupProfileOpen(false);
     setAddPlacePopupOpen(false);
     setImagePopupOpen(false);
-    setIsInfoTooltipPopupOpen(false)
+    setIsInfoTooltipPopupOpen(false);
   }
 
   function handleUpdateUser({ name, about }) {
@@ -259,32 +259,45 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-      <Header email={email} onSignOut={onSignOut}/>
-      <Routes>
-          <Route path="/sign-up" element={<Auth
-            title={"Регистрация"}
-            buttonTitle={"Зарегистрироваться"}
-            onHandleSubmit={onHandleRegisterSubmit}/>}
+        <Header isLoggedIn={isLoggedIn} email={email} onSignOut={onSignOut} />
+        <Routes>
+          <Route
+            path="/sign-up"
+            element={
+              <Auth
+                title={"Регистрация"}
+                buttonTitle={"Зарегистрироваться"}
+                onHandleSubmit={onHandleRegisterSubmit}
+              />
+            }
           />
-          <Route path="/sign-in" element={<Auth
-            title={"Вход"}
-            buttonTitle={"Войти"}
-            onHandleSubmit={onHandleLoginSubmit} />}
+          <Route
+            path="/sign-in"
+            element={
+              <Auth
+                title={"Вход"}
+                buttonTitle={"Войти"}
+                onHandleSubmit={onHandleLoginSubmit}
+              />
+            }
           />
-          <Route path="/" element={
-            <ProtectedRoute
-            isLoggedIn={isLoggedIn}            
-            element={Main}
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-            cards={cards}
-            />}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={Main}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                cards={cards}
+              />
+            }
           />
-          <Route path="*" element={<Navigate to="/sign-up"/>}/>
+          <Route path="*" element={<Navigate to="/sign-up" />} />
         </Routes>
         <Footer />
 
@@ -313,7 +326,7 @@ function App() {
           isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
         />
-         <InfoTooltip
+        <InfoTooltip
           title={tooltipTitle}
           tooltipIcon={tooltipIcon}
           isOpen={isInfoTooltipPopupOpen}
