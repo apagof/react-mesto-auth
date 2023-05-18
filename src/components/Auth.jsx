@@ -20,7 +20,7 @@ export default function Auth({ title, buttonTitle, onHandleSubmit }) {
   return (
     <div className="authorization">
       <div className="authorization__container">
-        <h2 className="authorization__title">Вход</h2>
+        <h2 className="authorization__title">{title}</h2>
         <form
           className="authorization-form authorization-form_login"
           name="register"
@@ -32,6 +32,7 @@ export default function Auth({ title, buttonTitle, onHandleSubmit }) {
             minLength={6}
             placeholder="Email"
             onChange={handleChange}
+            value={formValue.email} 
             required
             className="authorization-form__input authorization-form__input_email"
             id="login-email-input"
@@ -41,6 +42,7 @@ export default function Auth({ title, buttonTitle, onHandleSubmit }) {
             name="password"
             placeholder="Пароль"
             onChange={handleChange}
+            value={formValue.password} 
             required
             className="authorization-form__input authorization-form__input_password"
             id="login-password-input"
